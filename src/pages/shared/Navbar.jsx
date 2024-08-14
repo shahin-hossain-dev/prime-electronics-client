@@ -51,8 +51,15 @@ const Navbar = () => {
         </div>
         <div className="navbar-center hidden lg:flex">
           <label className="input input-bordered flex items-center gap-2">
-            <input type="text" className="grow" placeholder="Search" />
-            <button className="btn btn-primary btn-sm">Search</button>
+            <input
+              id="input-search"
+              type="text"
+              className="grow"
+              placeholder="Search"
+            />
+            <button id="btn-search" className="btn btn-primary btn-sm">
+              Search
+            </button>
           </label>
         </div>
         <div className="navbar-end">
@@ -71,8 +78,8 @@ const Navbar = () => {
         </label>
       </div>
       {/* navigation bar */}
-      <div class="lg:flex justify-center hidden border-b">
-        <ul class="menu menu-horizontal px-1 uppercase">
+      <div className="lg:flex justify-center hidden border-b">
+        <ul className="menu menu-horizontal px-1 uppercase">
           <li>
             <ActiveLink to={"/"}>Home</ActiveLink>
           </li>

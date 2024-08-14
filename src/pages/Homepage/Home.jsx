@@ -1,3 +1,5 @@
+import Products from "./Products";
+
 const Home = () => {
   return (
     <div>
@@ -6,7 +8,12 @@ const Home = () => {
           <h2>Filter by Category</h2>
         </aside>
         <section className="col-span-3">
-          <h2>Content</h2>
+          <div className="py-3 bg-slate-50 px-3 text-secondary font-medium">
+            <h2>products</h2>
+          </div>
+          <div className="mt-4">
+            <Products />
+          </div>
         </section>
       </div>
     </div>
