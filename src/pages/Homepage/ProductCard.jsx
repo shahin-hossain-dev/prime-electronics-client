@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProductCard = ({ product }) => {
-  console.log(product);
+  // console.log(product);
   const { img, name, description, price } = product;
   return (
     <div className="border p-4 border-slate-100">

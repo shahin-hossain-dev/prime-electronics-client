@@ -8,7 +8,7 @@ const Home = () => {
           <h2>Filter by Category</h2>
         </aside>
         <section className="col-span-3">
-          <div className="py-3 bg-slate-50 px-3 text-secondary font-medium">
+          <div className="py-3 bg-slate-200 px-3 text-secondary font-medium">
             <h2>products</h2>
           </div>
           <div className="mt-4">
