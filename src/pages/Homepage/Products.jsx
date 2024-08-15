@@ -6,21 +6,56 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 const Products = () => {
   const [searchText, setSearchText] = useState("");
   const axiosPublic = useAxiosPublic();
+  const [count, setCount] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(0);
 
+  // access search text from real DOM
   useEffect(() => {
     const text = document.getElementById("input-search");
     document.getElementById("btn-search").addEventListener("click", () => {
       setSearchText(text.value);
     });
   }, [searchText]);
-  console.log(searchText);
+
+  const numberOfPage = Math.ceil(count / itemsPerPage);
+  const pages = [...Array(numberOfPage).keys()];
+
+  const handlePage = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleNext = () => {
+    if (currentPage < pages.length - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const handlePrevious = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handlePerPage = (value) => {
+    setItemsPerPage(value);
+    console.log(value);
+  };
+
+  const { data } = useQuery({
+    queryKey: ["count"],
+    queryFn: async () => {
+      const data = await axiosPublic.get("/product-count");
+      setCount(data.data.count);
+      return data.data.count;
+    },
+  });
 
   const {
     isPending,
     error,
     data: products,
   } = useQuery({
-    queryKey: ["products", searchText],
+    queryKey: ["products", searchText, currentPage, itemsPerPage],
     queryFn: async () => {
       // search with text
       if (searchText) {
@@ -31,7 +66,11 @@ const Products = () => {
         );
         return filterProducts;
       }
-      const resp = await axiosPublic.get("/products");
+      // all products
+      const resp = await axiosPublic.get(
+        `/products?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
+      );
+
       return resp.data;
     },
   });
@@ -40,10 +79,49 @@ const Products = () => {
     return <div className="flex justify-center mt-5">Loading...</div>;
   }
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border">
-      {products?.map((product) => (
-        <ProductCard key={product._id} product={product} />
-      ))}
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border">
+        {products?.map((product) => (
+          <ProductCard key={product._id} product={product} />
+        ))}
+      </div>
+      {/* pagination */}
+      <div className="mt-12">
+        <button
+          onClick={() => handleNext()}
+          className="btn btn-primary btn-sm rounded-none me-3"
+        >
+          Next
+        </button>
+        <button
+          onClick={() => handlePrevious()}
+          className="btn btn-primary btn-sm rounded-none me-3"
+        >
+          Previous
+        </button>
+
+        {pages?.map((page, idx) => (
+          <button
+            key={idx}
+            onClick={() => handlePage(page)}
+            className={`btn btn-primary btn-sm me-3 rounded-none ${
+              page === currentPage ? "btn-secondary" : ""
+            }`}
+          >
+            {page + 1}
+          </button>
+        ))}
+        <div className="inline border border-primary p-1 ">
+          <select
+            onClick={(e) => handlePerPage(e.target.value)}
+            className="outline-none"
+          >
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+          </select>
+        </div>
+      </div>
     </div>
   );
 };
