@@ -3,12 +3,14 @@ import ProductCard from "./ProductCard";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
-const Products = () => {
+const Products = ({ price, category, brand }) => {
   const [searchText, setSearchText] = useState("");
   const axiosPublic = useAxiosPublic();
   const [count, setCount] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
+
+  console.log(price, category, brand);
 
   // access search text from real DOM
   useEffect(() => {
@@ -54,7 +56,15 @@ const Products = () => {
     error,
     data: products,
   } = useQuery({
-    queryKey: ["products", searchText, currentPage, itemsPerPage],
+    queryKey: [
+      "products",
+      searchText,
+      currentPage,
+      itemsPerPage,
+      price,
+      category,
+      brand,
+    ],
     queryFn: async () => {
       // search with text
       if (searchText) {
@@ -63,6 +73,22 @@ const Products = () => {
         const filterProducts = products.filter((pd) =>
           pd.name.toLowerCase().includes(searchText.toLowerCase())
         );
+        return filterProducts;
+      }
+
+      // filter with categories
+      if (brand || category || price) {
+        const resp = await axiosPublic.get(`/products`);
+        console.log(brand);
+        const products = resp.data;
+        const filterProducts = products.filter(
+          (product) =>
+            product.company === brand ||
+            product.category === category ||
+            (product.price > price.split("-")[0] &&
+              product.price < price.split("-")[1])
+        );
+        setCount(filterProducts.length);
         return filterProducts;
       }
       // all products
