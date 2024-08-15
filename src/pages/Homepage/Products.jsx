@@ -36,9 +36,8 @@ const Products = () => {
     }
   };
 
-  const handlePerPage = (value) => {
-    setItemsPerPage(value);
-    console.log(value);
+  const handlePerPage = (e) => {
+    setItemsPerPage(e.target.value);
   };
 
   const { data } = useQuery({
@@ -113,7 +112,8 @@ const Products = () => {
         ))}
         <div className="inline border border-primary p-1 ">
           <select
-            onClick={(e) => handlePerPage(e.target.value)}
+            defaultValue={itemsPerPage}
+            onChange={handlePerPage}
             className="outline-none"
           >
             <option value="10">10</option>
