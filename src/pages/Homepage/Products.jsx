@@ -10,8 +10,6 @@ const Products = ({ price, category, brand }) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
 
-  console.log(price, category, brand);
-
   // access search text from real DOM
   useEffect(() => {
     const text = document.getElementById("input-search");
@@ -43,9 +41,12 @@ const Products = ({ price, category, brand }) => {
   };
 
   const { data } = useQuery({
-    queryKey: ["count"],
+    queryKey: ["count", brand, category, price],
     queryFn: async () => {
-      const data = await axiosPublic.get("/product-count");
+      const data = await axiosPublic.get(
+        `/product-count?brand=${brand}&category=${category}&price=${price}`
+      );
+      // console.log(data.data.count);
       setCount(data.data.count);
       return data.data.count;
     },
@@ -78,22 +79,26 @@ const Products = ({ price, category, brand }) => {
 
       // filter with categories
       if (brand || category || price) {
-        const resp = await axiosPublic.get(`/products`);
-        console.log(brand);
-        const products = resp.data;
-        const filterProducts = products.filter(
-          (product) =>
-            product.company === brand ||
-            product.category === category ||
-            (product.price > price.split("-")[0] &&
-              product.price < price.split("-")[1])
+        const resp = await axiosPublic.get(
+          `/products?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&brand=${brand}&category=${category}&price=${price}`
         );
-        setCount(filterProducts.length);
-        return filterProducts;
+
+        return resp.data;
+        // console.log(brand);
+        // const products = resp.data;
+        // const filterProducts = products.filter(
+        //   (product) =>
+        //     product.company === brand ||
+        //     product.category === category ||
+        //     (product.price > price.split("-")[0] &&
+        //       product.price < price.split("-")[1])
+        // );
+        // setCount(filterProducts.length);
+        // return filterProducts;
       }
       // all products
       const resp = await axiosPublic.get(
-        `/products?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
+        `/products?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&brand=${brand}&category=${category}&price=${price}`
       );
 
       return resp.data;
@@ -105,6 +110,11 @@ const Products = ({ price, category, brand }) => {
   }
   return (
     <div>
+      {products.length !== 0 || (
+        <h2 className="text-2xl text-slate-400 text-center">
+          No Product Found
+        </h2>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border">
         {products?.map((product) => (
           <ProductCard key={product._id} product={product} />
@@ -142,6 +152,7 @@ const Products = ({ price, category, brand }) => {
             onChange={handlePerPage}
             className="outline-none"
           >
+            <option value="5">05</option>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>

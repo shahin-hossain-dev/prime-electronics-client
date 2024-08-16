@@ -37,11 +37,14 @@ const Category = ({ setBrand, setCategory, setPrice }) => {
           Category
         </label>
         <select
+          defaultValue={"select one"}
           onChange={(e) => setCategory(e.target.value)}
           className="w-full p-2 bg-slate-200"
         >
-          <option value="select one">Select One</option>
-          <option value="Laptops & PC">Laptops & PC</option>
+          <option disabled value="select one">
+            Select One
+          </option>
+          <option value="LaptopsAndPC">Laptops & PC</option>
           <option value="Smart Phones">Smart Phones</option>
           <option value="Other">Others</option>
         </select>
@@ -52,10 +55,13 @@ const Category = ({ setBrand, setCategory, setPrice }) => {
           Price Range
         </label>
         <select
+          defaultValue={"select one"}
           onChange={(e) => setPrice(e.target.value)}
           className="w-full p-2 bg-slate-200"
         >
-          <option value="select one">Select One</option>
+          <option disabled value="select one">
+            Select One
+          </option>
           <option value="0-100">$0 - $100</option>
           <option value="101-200">$101 - $200</option>
           <option value="200-500">$200 - $500+</option>

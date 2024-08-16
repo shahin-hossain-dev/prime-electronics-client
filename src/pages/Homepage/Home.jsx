@@ -5,7 +5,7 @@ import Products from "./Products";
 const Home = () => {
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
 
   return (
     <div>
