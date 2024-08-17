@@ -64,7 +64,7 @@ const Category = ({ setBrand, setCategory, setPrice }) => {
           </option>
           <option value="0-100">$0 - $100</option>
           <option value="101-200">$101 - $200</option>
-          <option value="200-500">$200 - $500+</option>
+          <option value="200-500">$200 - $500</option>
           <option value="500-100000">$500 - $1000+</option>
         </select>
       </div>

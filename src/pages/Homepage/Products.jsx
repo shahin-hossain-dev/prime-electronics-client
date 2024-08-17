@@ -131,7 +131,7 @@ const Products = ({ price, category, brand, sort }) => {
           <button
             key={idx}
             onClick={() => handlePage(page)}
-            className={`btn btn-primary btn-sm me-3 rounded-none ${
+            className={`btn btn-primary btn-sm me-3 mb-3 rounded-none ${
               page === currentPage ? "btn-secondary" : ""
             }`}
           >
