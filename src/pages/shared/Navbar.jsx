@@ -1,6 +1,18 @@
+import { useContext } from "react";
 import ActiveLink from "../../components/ActiveLink";
+import { AuthContext } from "../../provider/AuthProvider";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logOut().then(() => {
+      alert("logout successfully");
+      navigate("/");
+      window.location.reload();
+    });
+  };
   return (
     <div className="lg:w-[80%] mx-auto max-w-[1440px]">
       <div className="navbar bg-base-100  py-5">
@@ -63,11 +75,35 @@ const Navbar = () => {
           </label>
         </div>
         <div className="navbar-end">
-          <div className="avatar">
-            <div className="w-12 rounded-full">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+          {!user && (
+            <div>
+              <Link to={"/login"}>
+                <button className="btn btn-primary btn-outline btn-sm me-3">
+                  Login
+                </button>
+              </Link>
+              <Link to={"/register"}>
+                <button className="btn btn-primary btn-outline btn-sm me-3">
+                  Register
+                </button>
+              </Link>
             </div>
-          </div>
+          )}
+          {user && (
+            <div className="flex justify-center">
+              <button
+                onClick={handleLogout}
+                className="btn btn-primary btn-outline btn-sm mt-2 me-3  "
+              >
+                Logout
+              </button>
+              <div className="avatar" title={user?.displayName}>
+                <div className="w-12 rounded-full">
+                  <img src={user?.photoURL} />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {/* for small screen search */}

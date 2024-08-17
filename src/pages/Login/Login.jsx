@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/login.svg";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
+
 const Login = () => {
   const { userLogin, googleLogin } = useContext(AuthContext);
   const [error, setError] = useState("");
@@ -26,6 +27,7 @@ const Login = () => {
         setError(error.message);
       });
   };
+  // google login
   const handleGoogleLogin = () => {
     googleLogin()
       .then(async (result) => {
