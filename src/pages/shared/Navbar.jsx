@@ -2,15 +2,21 @@ import { useContext } from "react";
 import ActiveLink from "../../components/ActiveLink";
 import { AuthContext } from "../../provider/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
     logOut().then(() => {
-      alert("logout successfully");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Logout Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate("/");
-      window.location.reload();
     });
   };
   return (

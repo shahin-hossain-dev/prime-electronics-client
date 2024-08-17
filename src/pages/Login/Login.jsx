@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/login.svg";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { userLogin, googleLogin } = useContext(AuthContext);
@@ -18,7 +19,13 @@ const Login = () => {
       .then((result) => {
         // console.log(result);
         if (result.user) {
-          alert("Login Successfully", "success");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Login Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
         //todo: private route redirect navigate
         navigate("/");

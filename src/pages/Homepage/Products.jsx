@@ -75,6 +75,7 @@ const Products = ({ price, category, brand, sort }) => {
         const filterProducts = products.filter((pd) =>
           pd.name.toLowerCase().includes(searchText.toLowerCase())
         );
+        setCount(filterProducts.length);
         return filterProducts;
       }
 

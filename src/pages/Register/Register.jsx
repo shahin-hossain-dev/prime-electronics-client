@@ -1,14 +1,16 @@
 import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import loginImg from "../../assets/login.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
+import Swal from "sweetalert2";
 const Register = () => {
   const { userCreate, updateUserProfile } = useContext(AuthContext);
   const [error, setError] = useState("");
+  const navigate = useNavigate("");
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -23,6 +25,13 @@ const Register = () => {
         if (result.user) {
           updateUserProfile(name, userPhoto).then(async () => {
             signOut(auth);
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Created Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             navigate("/");
           });
         }
@@ -105,14 +114,7 @@ const Register = () => {
               />
             </div>
           </form>
-          <div className="space-y-5 mt-5">
-            <h4 className="text-center">Or Sign In with </h4>
-            <div className=" flex justify-center items-center gap-8">
-              <button className="text-3xl">
-                <FcGoogle />
-              </button>
-            </div>
-          </div>
+
           {error && <p className="text-red-500 text-center">{error}</p>}
 
           <p className="text-center mt-5">
