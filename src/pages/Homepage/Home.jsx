@@ -23,7 +23,7 @@ const Home = () => {
         </aside>
         <section className="col-span-3">
           <div className=" flex justify-between items-center gap-3 py-3 bg-slate-200 px-3 text-secondary font-medium">
-            <h2>products</h2>
+            <h2>Products</h2>
             <select
               defaultValue={"Sort Product"}
               onChange={(e) => setSort(e.target.value)}
