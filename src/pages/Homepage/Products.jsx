@@ -3,7 +3,7 @@ import ProductCard from "./ProductCard";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
-const Products = ({ price, category, brand }) => {
+const Products = ({ price, category, brand, sort }) => {
   const [searchText, setSearchText] = useState("");
   const axiosPublic = useAxiosPublic();
   const [count, setCount] = useState(0);
@@ -65,6 +65,7 @@ const Products = ({ price, category, brand }) => {
       price,
       category,
       brand,
+      sort,
     ],
     queryFn: async () => {
       // search with text
@@ -84,21 +85,11 @@ const Products = ({ price, category, brand }) => {
         );
 
         return resp.data;
-        // console.log(brand);
-        // const products = resp.data;
-        // const filterProducts = products.filter(
-        //   (product) =>
-        //     product.company === brand ||
-        //     product.category === category ||
-        //     (product.price > price.split("-")[0] &&
-        //       product.price < price.split("-")[1])
-        // );
-        // setCount(filterProducts.length);
-        // return filterProducts;
       }
-      // all products
+
+      // all products with sort
       const resp = await axiosPublic.get(
-        `/products?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&brand=${brand}&category=${category}&price=${price}`
+        `/products?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&sort=${sort}`
       );
 
       return resp.data;
