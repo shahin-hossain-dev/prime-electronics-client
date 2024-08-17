@@ -8,7 +8,7 @@ const ActiveLink = ({ children, to }) => {
       className={({ isActive }) =>
         isActive
           ? "text-primary bg-slate-50 rounded-full px-4 p-2 font-medium"
-          : " font-medium hover:bg-slate-50 rounded-full "
+          : "bg-slate-50 px-4 p-2 rounded-full"
       }
     >
       {children}
