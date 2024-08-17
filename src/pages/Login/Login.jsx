@@ -1,14 +1,42 @@
 import { FcGoogle } from "react-icons/fc";
-import { BsGithub } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/login.svg";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../provider/AuthProvider";
 const Login = () => {
+  const { userLogin, googleLogin } = useContext(AuthContext);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
   const handleLogin = async (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    // console.log(email, password);
+    // login with email & password
+    userLogin(email, password)
+      .then((result) => {
+        // console.log(result);
+        if (result.user) {
+          alert("Login Successfully", "success");
+        }
+        //todo: private route redirect navigate
+        navigate("/");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
+  const handleGoogleLogin = () => {
+    googleLogin()
+      .then(async (result) => {
+        if (result.user) {
+          alert("Login Successfully", "success");
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   return (
@@ -58,17 +86,16 @@ const Login = () => {
               />
             </div>
           </form>
+          {error && <p className="text-red-600 text-center">{error}</p>}
           <div className="space-y-5 mt-5">
             <h4 className="text-center">Or Sign In with </h4>
             <div className=" flex justify-center items-center gap-8">
-              <button className="text-3xl">
+              <button onClick={handleGoogleLogin} className="text-3xl">
                 <FcGoogle />
-              </button>
-              <button className="text-3xl">
-                <BsGithub />
               </button>
             </div>
           </div>
+
           <p className="text-center mt-5">
             <small>
               Don&apos;t have an account?{" "}
