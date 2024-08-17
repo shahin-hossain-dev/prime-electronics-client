@@ -16,7 +16,9 @@ const ProductCard = ({ product }) => {
           <p className="text-xl font-medium text-primary">Price: ${price}</p>
           <p>Pub: {moment(dateAndTime).format("DD-MM-YYYY, h:mm a")}</p>
           <div className="card-actions justify-end mt-auto">
-            <button className="btn btn-primary">Add to Cart</button>
+            <button className="btn btn-primary btn-sm w-full">
+              View Details
+            </button>
           </div>
         </div>
       </div>
